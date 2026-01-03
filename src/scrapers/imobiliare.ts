@@ -1,15 +1,19 @@
-import { chromium } from "playwright";
 import { RawListing } from "../types";
+import { launchBrowser } from "./browserConfig";
 
 export async function scrapeImobiliare(searchUrl: string): Promise<RawListing[]> {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const { browser, context } = await launchBrowser();
+  const page = await context.newPage();
   
   try {
-    await page.goto(searchUrl, { timeout: 60000, waitUntil: "domcontentloaded" });
+    console.log(`Imobiliare: Navigating to ${searchUrl}`);
+    await page.goto(searchUrl, { timeout: 60000, waitUntil: "networkidle" });
+    
+    // Wait for JavaScript to render
+    await page.waitForTimeout(3000);
     
     // Wait for listings to load
-    await page.waitForSelector('[data-cy="ad-card"]', { timeout: 10000 }).catch(() => {
+    await page.waitForSelector('[data-cy="ad-card"]', { timeout: 15000 }).catch(() => {
       console.log("Imobiliare: No listings found or timeout");
     });
 
@@ -61,8 +65,16 @@ export async function scrapeImobiliare(searchUrl: string): Promise<RawListing[]>
     return listings;
   } catch (error) {
     console.error("Imobiliare scraper failed:", error);
+    // Take screenshot for debugging
+    try {
+      await page.screenshot({ path: 'imobiliare-error.png', fullPage: true });
+      console.log("Imobiliare: Saved error screenshot");
+    } catch (e) {
+      // Ignore screenshot errors
+    }
     return [];
   } finally {
+    await context.close();
     await browser.close();
   }
 }

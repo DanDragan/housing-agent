@@ -1,16 +1,20 @@
-import { chromium } from "playwright";
 import { RawListing } from "../types";
+import { launchBrowser } from "./browserConfig";
 
 export async function scrapeOLX(searchUrl: string): Promise<RawListing[]> {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const { browser, context } = await launchBrowser();
+  const page = await context.newPage();
   
   try {
-    await page.goto(searchUrl, { timeout: 60000, waitUntil: "domcontentloaded" });
+    console.log(`OLX: Navigating to ${searchUrl}`);
+    await page.goto(searchUrl, { timeout: 60000, waitUntil: "networkidle" });
+
+    // Wait a bit for JavaScript to render
+    await page.waitForTimeout(3000);
 
     // Wait for listings to load
-    await page.waitForSelector('[data-cy="l-card"]', { timeout: 10000 }).catch(() => {
-      console.log("OLX: No listings found or timeout");
+    await page.waitForSelector('[data-cy="l-card"]', { timeout: 15000 }).catch(() => {
+      console.log("OLX: Primary selector not found, trying alternatives...");
     });
 
     const listings: RawListing[] = [];
@@ -78,8 +82,16 @@ export async function scrapeOLX(searchUrl: string): Promise<RawListing[]> {
     return listings;
   } catch (error) {
     console.error("OLX scraper failed:", error);
+    // Take screenshot for debugging in CI
+    try {
+      await page.screenshot({ path: 'olx-error.png', fullPage: true });
+      console.log("OLX: Saved error screenshot");
+    } catch (e) {
+      // Ignore screenshot errors
+    }
     return [];
   } finally {
+    await context.close();
     await browser.close();
   }
 }

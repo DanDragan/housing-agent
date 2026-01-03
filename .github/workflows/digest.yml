@@ -39,6 +39,14 @@ jobs:
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
 
+      - name: Upload screenshots on error
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-screenshots
+          path: "*.png"
+          if-no-files-found: ignore
+
       - name: Commit updated state
         run: |
           git config user.name "housing-agent-bot"
