@@ -1,5 +1,5 @@
 export interface RawListing {
-  source: "imobiliare" | "storia" | "olx";
+  source: "imobiliare" | "storia" | "olx" | "trimbitasu";
   title: string;
   price: string;
   url: string;

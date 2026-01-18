@@ -1,10 +1,10 @@
 # 🏠 Housing Agent - Bucharest Real Estate Digest
 
-Automated real estate scraper and digest generator for finding apartments in Bucharest. Runs every 3 days on GitHub Actions, scrapes OLX, Imobiliare.ro, and Storia.ro, uses OpenAI for intelligent filtering and ranking, and sends email digests.
+Automated real estate scraper and digest generator for finding apartments in Bucharest. Runs every 3 days on GitHub Actions, scrapes OLX, Imobiliare.ro, Storia.ro, and Trimbitasu.ro, uses OpenAI for intelligent filtering and ranking, and sends email digests.
 
 ## Features
 
-- **Multi-source scraping**: OLX, Imobiliare.ro, and Storia.ro
+- **Multi-source scraping**: OLX, Imobiliare.ro, Storia.ro, and Trimbitasu.ro
 - **Intelligent filtering**: AI-powered normalization and filtering using OpenAI GPT-4o-mini
 - **Smart ranking**: Prioritizes buildings built after 2010 and other quality factors
 - **Automated scheduling**: Runs every 3 days via GitHub Actions

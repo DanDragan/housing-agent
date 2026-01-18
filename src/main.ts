@@ -2,6 +2,7 @@ import "dotenv/config";
 import { scrapeOLX } from "./scrapers/olx";
 import { scrapeImobiliare } from "./scrapers/imobiliare";
 import { scrapeStoria } from "./scrapers/storia";
+import { scrapeTrimbitasu } from "./scrapers/trimbitasu";
 import { summarize } from "./ai/summarize";
 import { sendEmail } from "./email/sendEmail";
 import { loadSeen, saveSeen } from "./state/seenListings";
@@ -27,6 +28,10 @@ async function run() {
     }),
     scrapeStoria(SCRAPER_URLS.storia).catch((err) => {
       console.error("Storia scraper failed:", err.message);
+      return [] as RawListing[];
+    }),
+    scrapeTrimbitasu(SCRAPER_URLS.trimbitasu).catch((err) => {
+      console.error("Trimbitasu scraper failed:", err.message);
       return [] as RawListing[];
     })
   ];

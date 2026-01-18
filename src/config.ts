@@ -31,6 +31,7 @@ export const EMAIL_CONFIG = {
 export const SCRAPER_URLS = {
   olx: "https://www.olx.ro/imobiliare/apartamente-garsoniere-de-vanzare/bucuresti/",
   imobiliare: "https://www.imobiliare.ro/vanzare-apartamente/bucuresti",
-  storia: "https://www.storia.ro/ro/rezultate/apartamente/bucovina/bucuresti/bucuresti?limit=72&market=ALL&areaMin=80&priceMax=340000&by=DEFAULT&direction=DESC&viewType=listing"
+  storia: "https://www.storia.ro/ro/rezultate/apartamente/bucovina/bucuresti/bucuresti?limit=72&market=ALL&areaMin=80&priceMax=340000&by=DEFAULT&direction=DESC&viewType=listing",
+  trimbitasu: "https://www.trimbitasu.ro/imobiliare/bucuresti/apartamente-vanzare"
 };
   
