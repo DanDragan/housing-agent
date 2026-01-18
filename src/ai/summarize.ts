@@ -17,6 +17,7 @@ Your task is to:
 
 NORMALIZATION RULES:
 - Extract price in EUR (convert RON using ~5 RON = 1 EUR if needed)
+- Extract if individual house or apartment
 - Extract square meters (sqm)
 - Extract number of rooms (total, not just bedrooms)
 - Extract number of bathrooms
@@ -37,6 +38,7 @@ FILTERING CRITERIA (STRICT):
 
 RANKING SCORE (0-100):
 +30 points: Built after ${SEARCH_CONFIG.priorityYear}
++30 points: Individual house (not apartment)
 +20 points: Price under €300,000
 +15 points: 3+ bathrooms
 +10 points: 100+ sqm
